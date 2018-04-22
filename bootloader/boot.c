@@ -2,6 +2,11 @@
 #define SECTSIZE 512
 
 void bootMain(void) {
+	/*观察app里的makefile文件，可以看到将start程序段写到了从0x8c00位置开始处。
+	0x8c00表示程序的线性地址空间，但是未加载前，这段代码存储在磁盘中。
+	开机时只有磁盘第一个扇区（0号扇区）——也就是启动扇区，被装载到内存。
+	一个扇区512字节，start程序段被编译到了紧接着启动扇区的第二个扇区（1号扇区）。
+	本段程序的作用是将app中的start程序段从磁盘装载到内存里运行*/
 	unsigned int sceno = 1;			//设置要读写的磁盘扇区号为1，即第二个磁盘扇区
 	unsigned long va = 0x8c00;		//设置要写入的内存地址为0x8c00
 	readSect((void*)va, sceno);		//
