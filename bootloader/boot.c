@@ -1,11 +1,14 @@
 #include "boot.h"
-
 #define SECTSIZE 512
 
 void bootMain(void) {
-	void (*elf)(void);
-	// loading sector 1 to memory
-	elf();
+	unsigned int sceno = 1;
+	unsigned long va = 0x8c00;
+	
+	readSect((void*)va, sceno);
+	
+	asm volatile("jmp 0x8c00");
+	while(1);
 }
 
 void waitDisk(void) { // waiting for disk
@@ -23,6 +26,7 @@ void readSect(void *dst, int offset) { // reading one sector of disk
 	outByte(0x1F7, 0x20);
 
 	waitDisk();
+
 	for (i = 0; i < SECTSIZE / 4; i ++) {
 		((int *)dst)[i] = inLong(0x1F0);
 	}
