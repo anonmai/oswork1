@@ -38,5 +38,5 @@ start:
         movl $((80*3+11)*2), %edi               #在第3行第11列打印
         movb $33, %al                           #33为!的ASCII码
         movw %ax, %gs:(%edi)                    #写显存
-1:      hlt
+1:      hlt                     #无限循环
         jmp 1b   

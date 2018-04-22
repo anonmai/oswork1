@@ -1,6 +1,6 @@
 .text
 .code16
-.global start
+.global start                   #global能让编译器能识别到过程块start
 start:
         movw $0x0000, %ax               #屏幕清零
         int  $0x10                      #中断调用
@@ -16,15 +16,15 @@ start:
 
 .code32
 start32:
-        movw $SelectorVideo, %ax
-	    movw %ax, %gs
-
         movw $SelectorCode, %ax
-	    movw %ax, %es
+	movw %ax, %es
         movw %ax, %fs
         movw $SelectorData, %ax
-        movw %ax, %ds
+        movw %ax, %ds                   #初始化es，fs，ds等
            
+        movw $SelectorVideo, %ax        
+	movw %ax, %gs                   #设置视频段寄存器，指向视频段描述符
+
         jmp bootMain                    #跳转至bootMain函数 定义于boot.c
 1:      hlt
         jmp 1b  
