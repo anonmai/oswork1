@@ -22,8 +22,8 @@ start32:
         movw $SelectorData, %ax
         movw %ax, %ds                   #初始化es，fs，ds等
            
-        movw $SelectorVideo, %ax        
-	movw %ax, %gs                   #设置视频段寄存器，指向视频段描述符
+        movw $SelectorVideo, %ax        #设置视频段寄存器，指向视频段描述符
+	movw %ax, %gs                   
 
         jmp bootMain                    #跳转至bootMain函数 定义于boot.c
 
